@@ -23,132 +23,231 @@
             <ImageView
                 android:id="@+id/imageView25"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="376dp"
                 android:src="@drawable/img_first_album_default"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <!-- 두 번째 이미지 -->
             <ImageView
                 android:id="@+id/imageViewInside2_0"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/btn_main_mike"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginTop="8dp"/>
+                android:src="@drawable/btn_main_setting"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <!-- 세 번째 이미지 -->
             <ImageView
                 android:id="@+id/imageViewInside2_1"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:src="@drawable/btn_main_ticket"
                 app:layout_constraintEnd_toStartOf="@id/imageViewInside2_0"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginEnd="8dp"
-                android:layout_marginTop="8dp"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <!-- 네 번째 이미지 -->
             <ImageView
                 android:id="@+id/imageViewInside2_2"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/btn_main_setting"
-                app:layout_constraintEnd_toStartOf="@id/imageViewInside2_1"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginTop="8dp"/>
+                android:src="@drawable/btn_main_mike"
+                app:layout_constraintEnd_toStartOf="@id/imageViewInside2_1"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="포근하게 덮어주는\n꿈의 목소리"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="50dp"
+                android:text="포근하게 덮어주는 꿈의\n목소리"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
                 app:layout_constraintStart_toStartOf="@id/imageView25"
-                app:layout_constraintTop_toTopOf="@id/imageView25"/>
+                app:layout_constraintTop_toTopOf="@id/imageView25" />
 
             <ImageView
                 android:id="@+id/imageViewRight"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginRight="30dp"
                 android:src="@drawable/btn_panel_play_large"
                 app:layout_constraintStart_toEndOf="@id/textView"
-                app:layout_constraintTop_toTopOf="@id/textView"/>
+                app:layout_constraintTop_toTopOf="@id/textView" />
 
             <ImageView
                 android:id="@+id/imageViewInside"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:src="@drawable/img_album_exp"
-                android:layout_marginTop="200dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="230dp"
+                android:src="@drawable/img_album_exp"
                 app:layout_constraintStart_toStartOf="@id/imageView25"
-                app:layout_constraintTop_toTopOf="@id/imageView25"/>
+                app:layout_constraintTop_toTopOf="@id/imageView25" />
 
             <ImageView
                 android:id="@+id/imageViewInside2"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:src="@drawable/img_album_exp"
-                android:layout_marginTop="80dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="1dp"
+                android:layout_marginTop="80dp"
+                android:src="@drawable/img_album_exp"
                 app:layout_constraintStart_toStartOf="@+id/imageViewInside"
-                app:layout_constraintTop_toTopOf="@+id/imageViewInside"/>
+                app:layout_constraintTop_toTopOf="@+id/imageViewInside" />
 
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="10dp"
                 android:text="잠이 안온다\n    젠(zen)"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
-                android:layout_marginStart="10dp"
-                android:layout_marginBottom="10dp"
-                app:layout_constraintStart_toEndOf="@id/imageViewInside"
-                app:layout_constraintBottom_toBottomOf="@id/imageViewInside"/>
+                app:layout_constraintBottom_toBottomOf="@id/imageViewInside"
+                app:layout_constraintStart_toEndOf="@id/imageViewInside" />
 
             <TextView
                 android:id="@+id/textView2_1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="10dp"
                 android:text="잠이 안온다\n    젠(zen)"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
-                android:layout_marginStart="10dp"
-                android:layout_marginBottom="10dp"
-                app:layout_constraintStart_toEndOf="@id/imageViewInside2"
-                app:layout_constraintBottom_toBottomOf="@id/imageViewInside2"/>
+                app:layout_constraintBottom_toBottomOf="@id/imageViewInside2"
+                app:layout_constraintStart_toEndOf="@id/imageViewInside2" />
 
-            <!-- 두 번째 이미지 -->
+            <TextView
+                android:id="@+id/tv_today_music"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="오늘 발매 음악 >"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="100dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageView25"
+                app:layout_constraintBottom_toBottomOf="@id/tv_category" />
+
+            <!-- 카테고리 메뉴 -->
+            <TextView
+                android:id="@+id/tv_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="종합 | 국내 | 해외"
+                android:textSize="14sp"
+                android:textColor="#666666"
+                android:layout_marginTop="250dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageView25"
+                app:layout_constraintBottom_toBottomOf="@id/tv_today_music" />
+
+            <ImageView
+                android:id="@+id/imageView40"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/img_album_exp2"
+                app:layout_constraintTop_toBottomOf="@id/tv_today_music"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/imageView41"
+                app:layout_constraintHorizontal_weight="1" />
+
+            <!-- 앨범 이미지 2 -->
+            <ImageView
+                android:id="@+id/imageView41"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/img_album_exp2"
+                app:layout_constraintTop_toBottomOf="@id/tv_today_music"
+                app:layout_constraintStart_toEndOf="@id/imageView40"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1" />
+
+            <!-- 앨범 제목 1 -->
+            <TextView
+                android:id="@+id/tv_title_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="앨범 제목 1"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/imageView40"
+                app:layout_constraintStart_toStartOf="@id/imageView40"
+                app:layout_constraintEnd_toEndOf="@id/imageView40" />
+
+            <!-- 가수명 1 -->
+            <TextView
+                android:id="@+id/tv_artist_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="가수 1"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                app:layout_constraintTop_toBottomOf="@id/tv_title_1"
+                app:layout_constraintStart_toStartOf="@id/imageView40" />
+
+            <!-- 앨범 제목 2 -->
+            <TextView
+                android:id="@+id/tv_title_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="앨범 제목 2"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/imageView41"
+                app:layout_constraintStart_toStartOf="@id/imageView41"
+                app:layout_constraintEnd_toEndOf="@id/imageView41" />
+
+            <!-- 가수명 2 -->
+            <TextView
+                android:id="@+id/tv_artist_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="가수 2"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                app:layout_constraintTop_toBottomOf="@id/tv_title_2"
+                app:layout_constraintStart_toStartOf="@id/imageView41" />
+
+
             <ImageView
                 android:id="@+id/imageView26"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="260dp"
                 android:src="@drawable/img_home_viewpager_exp"
+                app:layout_constraintBottom_toTopOf="@+id/imageView41"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imageView25" />
+                app:layout_constraintTop_toBottomOf="@+id/imageView41"
+                app:layout_constraintVertical_bias="0.5" />
 
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="150dp"
                 android:text="매일 들어도 좋은 팟캐스트"
                 android:textColor="#000000"
                 android:textSize="18sp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="150dp"
                 app:layout_constraintStart_toStartOf="@id/imageView26"
-                app:layout_constraintTop_toTopOf="@id/imageView26"/>
+                app:layout_constraintTop_toTopOf="@id/imageView26" />
 
             <!-- 세 번째 이미지 -->
             <ImageView
@@ -166,13 +265,13 @@
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="170dp"
                 android:text="제목\n가수"
                 android:textColor="#000000"
                 android:textSize="18sp"
-                android:layout_marginStart="70dp"
-                android:layout_marginTop="170dp"
                 app:layout_constraintStart_toStartOf="@id/imageView27"
-                app:layout_constraintTop_toTopOf="@id/imageView27"/>
+                app:layout_constraintTop_toTopOf="@id/imageView27" />
 
             <!-- 네 번째 이미지 -->
             <ImageView
@@ -189,49 +288,39 @@
             <TextView
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="170dp"
+                android:layout_marginBottom="100dp"
                 android:text="제목\n가수"
                 android:textColor="#000000"
                 android:textSize="18sp"
-                android:layout_marginStart="70dp"
-                android:layout_marginTop="170dp"
                 app:layout_constraintStart_toStartOf="@id/imageView28"
-                app:layout_constraintTop_toTopOf="@id/imageView28"/>
-
-            <!-- 다섯 번째 이미지 -->
-            <ImageView
-                android:id="@+id/imageView29"
-                android:layout_width="178dp"
-                android:layout_height="175dp"
-                android:layout_marginTop="2dp"
-                android:src="@drawable/img_potcast_exp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imageView27" />
+                app:layout_constraintTop_toTopOf="@id/imageView28" />
 
             <TextView
-                android:id="@+id/videoCollectionText"
+                android:id="@+id/imageView43"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="비디오 콜렉션"
                 android:textColor="#000000"
-                android:textSize="18sp"
+                android:textSize="22sp"
+                android:layout_marginTop="1000dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imageView29"
-                android:layout_marginTop="2dp" />
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- 여섯 번째 이미지 - 간격 줄임 -->
+            <!-- 비디오 이미지 -->
             <ImageView
                 android:id="@+id/imageView30"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_height="176dp"
+                android:layout_marginTop="10dp"
                 android:src="@drawable/img_video_exp"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/videoCollectionText" />
+                app:layout_constraintTop_toBottomOf="@id/imageView43"
+                app:layout_constraintEnd_toEndOf="parent" />
 
+            <!-- 제목 및 가수 -->
             <TextView
                 android:id="@+id/textView7"
                 android:layout_width="wrap_content"
@@ -239,17 +328,16 @@
                 android:text="제목\n가수"
                 android:textColor="#000000"
                 android:textSize="18sp"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 app:layout_constraintStart_toStartOf="@id/imageView30"
-                app:layout_constraintTop_toTopOf="@id/imageView30"/>
+                app:layout_constraintTop_toBottomOf="@id/imageView30" />
 
             <ImageView
                 android:id="@+id/imageView31"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="176dp"
+                android:layout_marginTop="100dp"
                 android:src="@drawable/discovery_banner_aos"
-                android:layout_marginTop="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/imageView30" />
@@ -258,7 +346,7 @@
             <ImageView
                 android:id="@+id/imageView32"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_marginTop="0dp"
                 android:src="@drawable/img_home_viewpager_exp2"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -268,40 +356,47 @@
             <!-- 소셜 미디어 아이콘들 -->
             <ImageView
                 android:id="@+id/imageView33"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="70dp"
                 android:src="@drawable/ic_main_facebook"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imageView32"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="70dp"/>
+                app:layout_constraintTop_toBottomOf="@id/imageView32" />
 
             <ImageView
                 android:id="@+id/imageView34"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="16dp"
                 android:src="@drawable/ic_main_instagram"
                 app:layout_constraintStart_toEndOf="@id/imageView33"
-                app:layout_constraintTop_toTopOf="@id/imageView33"
-                android:layout_marginStart="16dp"/>
+                app:layout_constraintTop_toTopOf="@id/imageView33" />
 
             <ImageView
                 android:id="@+id/imageView35"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:src="@drawable/ic_main_youtube"
                 app:layout_constraintStart_toEndOf="@id/imageView34"
-                app:layout_constraintTop_toTopOf="@id/imageView33"
-                android:layout_marginStart="16dp"/>
+                app:layout_constraintTop_toTopOf="@id/imageView33" />
 
             <ImageView
                 android:id="@+id/imageView36"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
                 android:src="@drawable/ic_main_twitter"
                 app:layout_constraintStart_toEndOf="@id/imageView35"
-                app:layout_constraintTop_toTopOf="@id/imageView33"
-                android:layout_marginStart="2dp"/>
+                app:layout_constraintTop_toTopOf="@id/imageView33" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="20dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
