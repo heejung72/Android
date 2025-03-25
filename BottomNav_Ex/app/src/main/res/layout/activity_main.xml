@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -5,72 +6,71 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
+    <!-- Bell Icon -->
+    <ImageView
+        android:id="@+id/bell_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/bell" />
 
-
-        <!-- 벨 아이콘 -->
-        <ImageView
-            android:id="@+id/bell_icon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="30dp"
-            android:src="@drawable/bell" />
-
-        <!-- '투유' 텍스트 -->
+    <!-- 'ToYou' Text -->
     <TextView
         android:id="@+id/ToyouText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="투유"
-        android:textSize="30sp"
-        android:layout_marginTop="30dp"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="20dp"/>
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:text="투유"
+        android:textSize="30sp" />
 
+    <!-- Date -->
+    <TextView
+        android:id="@+id/dateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="97dp"
+        android:text="2025년 3월 24일"
+        android:textSize="16sp" />
 
-
-
-        <!-- 날짜 -->
-        <TextView
-            android:id="@+id/dateText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2025년 3월 24일"
-            android:textSize="16sp"
-            android:layout_marginTop="97dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="150dp"/>
-
-
-
-    <!-- 멘트 텍스트 -->
+    <!-- Ment Text -->
     <TextView
         android:id="@+id/mentText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="멘트"
-        android:textSize="14sp"
-        android:textColor="@android:color/black"
         android:layout_below="@id/dateText"
-        android:layout_marginTop="8dp"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="150dp"/>
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="8dp"
+        android:text="멘트"
+        android:textColor="@android:color/black"
+        android:textSize="14sp" />
 
-    <!-- toyou 이미지 크게 배치 -->
-    <ImageView
-        android:id="@+id/toyou_mailbox"
-        android:layout_width="400dp"
-        android:layout_height="400dp"
-        android:layout_centerInParent="true"
-        android:src="@drawable/ic_toyou" />
+    <!-- Container for ToYou Image with Animation -->
+    <FrameLayout
+        android:id="@+id/toyou_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_navigation">
+
+        <ImageView
+            android:id="@+id/toyou_mailbox"
+            android:layout_width="400dp"
+            android:layout_height="400dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_toyou" />
+    </FrameLayout>
 
     <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
         app:menu="@menu/bottom_nav_menu" />
