@@ -22,19 +22,32 @@ class MainActivity : AppCompatActivity() {
         toyouContainer = findViewById(R.id.toyou_container)
         bottomNavigation = findViewById(R.id.bottom_navigation)
 
+        // 수정된 부분: onNavigationItemSelected 사용
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.nav_home -> animateImageTransition(R.drawable.ic_toyou)
-                R.id.nav_pen -> animateImageTransition(R.drawable.ic_pen)
-                R.id.nav_calendar -> animateImageTransition(R.drawable.ic_calendar)
-                R.id.nav_settings -> animateImageTransition(R.drawable.ic_settings)
+                R.id.nav_home -> {
+                    animateImageTransition(R.drawable.ic_toyou)
+                    true // 메뉴 선택 유지
+                }
+                R.id.nav_pen -> {
+                    animateImageTransition(R.drawable.ic_pen)
+                    true
+                }
+                R.id.nav_calendar -> {
+                    animateImageTransition(R.drawable.ic_calendar)
+                    true
+                }
+                R.id.nav_settings -> {
+                    animateImageTransition(R.drawable.ic_settings)
+                    true
+                }
                 else -> false
             }
         }
     }
 
     private fun animateImageTransition(newImageResource: Int): Boolean {
-        // Create a new ImageView for the incoming image
+        // 기존 코드와 동일
         val newImageView = ImageView(this)
         newImageView.setImageResource(newImageResource)
         newImageView.layoutParams = ViewGroup.LayoutParams(
