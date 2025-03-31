@@ -3,51 +3,306 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/white">
 
-    <!-- 앨범 커버 -->
-    <ImageView
-        android:id="@+id/imageAlbumCover"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:src="@drawable/img_album_exp2"
-        android:scaleType="centerCrop"
-        android:layout_gravity="center"/>
+    <!-- 상단 바 : 뒤로가기, 하트, 점세개 -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start|end"
+        android:layout_marginTop="8dp">
 
-    <!-- 앨범 정보 -->
+        <!-- 뒤로가기 아이콘 -->
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/btn_arrow_black"
+            android:contentDescription="뒤로가기"
+            android:layout_gravity="start" />
+
+        <!-- Like Button (하트) -->
+        <ImageView
+            android:id="@+id/btn_like"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_my_like_off"
+            android:layout_marginLeft="220dp"
+            android:contentDescription="즐겨찾기 추가"
+            android:layout_gravity="end" />
+
+        <!-- Settings Button (점 3개) -->
+        <ImageView
+            android:id="@+id/btn_set"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/btn_player_more"
+            android:contentDescription="점세개"
+            android:layout_gravity="end"
+            android:layout_marginStart="16dp"/>
+    </LinearLayout>
+    <!-- Song Title -->
     <TextView
-        android:id="@+id/textAlbumTitle"
-        android:text="앨범 제목"
-        android:textSize="18sp"
+        android:id="@+id/tv_song_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="IU 5th Album LILAC"
+        android:textSize="24sp"
         android:textStyle="bold"
-        android:gravity="center"
+        android:layout_marginLeft="70dp"
+        android:textColor="@color/black"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Artist Name -->
+    <TextView
+        android:id="@+id/tv_artistname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="아이유(IU)"
+        android:layout_marginLeft="150dp"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="8dp"/>
+    <TextView
+        android:id="@+id/tv_artist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2021.03.25 | 정규 | 댄스 팝"
+        android:layout_marginLeft="80dp"
+        android:textSize="18sp"
+        android:textColor="@color/black"
         android:layout_marginTop="8dp"/>
 
-    <TextView
-        android:id="@+id/textArtist"
-        android:text="아티스트 이름"
-        android:gravity="center"
-        android:layout_marginTop="4dp"/>
+    <!-- Album Cover -->
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="230dp"
+        android:layout_height="230dp"
+        android:src="@drawable/img_album_exp2"
+        android:scaleType="centerCrop"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"/>
 
-    <TextView
-        android:id="@+id/textReleaseDate"
-        android:text="발매일"
-        android:gravity="center"
-        android:layout_marginTop="4dp"/>
-
-    <!-- MIX 토글 버튼 -->
+    <!-- Mix Toggle Button (수록곡, 상세정보, 영상) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/side_song"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="수록곡"
+            android:layout_marginLeft="10dp"
+            android:textSize="18sp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="상세정보"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:layout_marginStart="70dp"/>
+
+        <TextView
+            android:id="@+id/video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="70dp"
+            android:text="영상"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <!-- My Favorite Mix Toggle -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/my_favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="내 취향 MIX"
+            android:textSize="13sp"
+            android:textColor="@color/black"/>
+
+        <ImageView
+            android:id="@+id/btn_mix"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/btn_toggle_off"
+            android:contentDescription="MIX button"
+            android:layout_marginStart="16dp"/>
+    </LinearLayout>
+
+    <!-- Select All & Listen All Text -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="start|end"
         android:layout_marginTop="16dp">
 
         <TextView
-            android:text="내 취향 MIX"
-            android:textStyle="bold"
-            android:layout_weight="1"/>
+            android:id="@+id/all_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="전체선택"
+            android:textSize="18sp"
+            android:textColor="@color/black"/>
 
-        <Switch
-            android:id="@+id/toggleMix"/>
+        <TextView
+            android:id="@+id/all_listen"
+            android:layout_width="164dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:layout_marginStart="230dp"
+            android:text="전체듣기"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
     </LinearLayout>
+
+    <!-- Song List -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="24dp">
+
+        <!-- Song 01 -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/song_01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="01. 라일락"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:layout_marginEnd="8dp"/>
+
+            <ImageView
+                android:id="@+id/btn_play_1"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="240dp"
+                android:src="@drawable/btn_miniplay_mvplay"
+                android:contentDescription="재생 버튼"/>
+
+
+            <ImageView
+                android:id="@+id/btn_more_01"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/btn_player_more"
+                android:contentDescription="점세개 버튼"/>
+        </LinearLayout>
+
+        <!-- Song 02 -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/song_02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="02. Flu"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:layout_marginEnd="8dp"/>
+            <ImageView
+                android:id="@+id/btn_play_2"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="265dp"
+                android:src="@drawable/btn_miniplay_mvplay"
+                android:contentDescription="재생 버튼"/>
+            <ImageView
+                android:id="@+id/btn_more_02"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/btn_player_more"
+                android:contentDescription="점세개 버튼"/>
+        </LinearLayout>
+
+        <!-- Song 03 -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/song_03"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="03. Coin"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:layout_marginEnd="8dp"/>
+
+            <ImageView
+                android:id="@+id/btn_play_3"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="250dp"
+                android:src="@drawable/btn_miniplay_mvplay"
+                android:contentDescription="재생 버튼"/>
+
+            <ImageView
+                android:id="@+id/btn_more_03"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/btn_player_more"
+                android:contentDescription="점세개 버튼"/>
+        </LinearLayout>
+
+        <!-- Song 04 -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/song_04"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="04. 봄안녕"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:layout_marginEnd="8dp"/>
+
+            <ImageView
+                android:id="@+id/btn_more_04"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/btn_player_more"
+                android:contentDescription="점세개 버튼"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
 </LinearLayout>
