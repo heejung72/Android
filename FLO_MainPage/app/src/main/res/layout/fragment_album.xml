@@ -1,0 +1,53 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <!-- 앨범 커버 -->
+    <ImageView
+        android:id="@+id/imageAlbumCover"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/img_album_exp2"
+        android:scaleType="centerCrop"
+        android:layout_gravity="center"/>
+
+    <!-- 앨범 정보 -->
+    <TextView
+        android:id="@+id/textAlbumTitle"
+        android:text="앨범 제목"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/textArtist"
+        android:text="아티스트 이름"
+        android:gravity="center"
+        android:layout_marginTop="4dp"/>
+
+    <TextView
+        android:id="@+id/textReleaseDate"
+        android:text="발매일"
+        android:gravity="center"
+        android:layout_marginTop="4dp"/>
+
+    <!-- MIX 토글 버튼 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:text="내 취향 MIX"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+
+        <Switch
+            android:id="@+id/toggleMix"/>
+    </LinearLayout>
+</LinearLayout>
