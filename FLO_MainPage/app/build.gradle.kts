@@ -1,3 +1,5 @@
+
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -36,6 +38,18 @@ android {
     }
     buildFeatures {
         compose = true
+    }
+
+    viewBinding{
+        enable = true
+    }
+
+    dataBinding {
+        enable = true
+    }
+
+    buildFeatures{
+        viewBinding = true
     }
 }
 

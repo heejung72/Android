@@ -14,11 +14,13 @@
         android:src="@drawable/btn_player_setting"
         android:contentDescription="뒤로가기"
         android:layout_marginStart="16dp"
+        android:layout_margin="10dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
     <!-- EQ 버튼 (뒤로가기 버튼 오른쪽) -->
     <ImageView
+        android:layout_margin="10dp"
         android:id="@+id/btn_eq"
         android:layout_width="30dp"
         android:layout_height="30dp"
@@ -30,7 +32,8 @@
 
     <!-- 설정 버튼 (우측 상단) -->
     <ImageView
-        android:id="@+id/btn_setting"
+        android:layout_margin="10dp"
+        android:id="@+id/btn_down"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:src="@drawable/nugu_btn_down"
@@ -41,6 +44,7 @@
 
     <!-- 점 3개 버튼 (설정 버튼 아래) -->
     <ImageView
+        android:layout_margin="10dp"
         android:id="@+id/btn_set"
         android:layout_width="30dp"
         android:layout_height="30dp"
@@ -48,39 +52,15 @@
         android:contentDescription="점세개"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        app:layout_constraintTop_toBottomOf="@id/btn_setting"
+        app:layout_constraintTop_toBottomOf="@id/btn_down"
         app:layout_constraintEnd_toEndOf="parent"/>
-
-    <!-- 설정 버튼 -->
-    <ImageView
-        android:id="@+id/btn_setting"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@drawable/nugu_btn_down"
-        android:contentDescription="세팅"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp"
-        />
-
-    <!-- 앨범 이미지 -->
-    <ImageView
-        android:id="@+id/img_album"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/img_album_exp2"
-        app:layout_constraintTop_toBottomOf="@+id/tv_artist"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp"/>
 
     <!-- 곡 제목 -->
     <TextView
         android:id="@+id/tv_song_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="LILAC"
+        android:text="라일락"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@+id/btn_set"
@@ -95,11 +75,31 @@
         android:layout_height="wrap_content"
         android:text="아이유 (IU)"
         android:textSize="18sp"
-        android:layout_marginBottom="100dp"
         android:textColor="@color/black"
         app:layout_constraintTop_toBottomOf="@id/tv_song_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/btn_arrow_more"
+        android:id="@+id/btn_arrow_more"
+        app:layout_constraintTop_toBottomOf="@id/tv_song_title"
+        app:layout_constraintStart_toEndOf="@+id/tv_artist"
+        android:layout_marginTop="4dp" />
+
+    <!-- 앨범 이미지 -->
+    <ImageView
+        android:id="@+id/img_album"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="15dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_album_exp2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_artist" />
 
     <!-- 가사 -->
     <TextView
@@ -114,31 +114,53 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"/>
 
-    <!-- 즐겨찾기 버튼 -->
-    <LinearLayout
-        android:id="@+id/favorite_buttons"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/song_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp">
-
         <ImageView
             android:id="@+id/btn_like"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:src="@drawable/ic_my_like_off"
-            android:contentDescription="즐겨찾기 추가" />
+            android:contentDescription="즐겨찾기 추가"
+            app:layout_constraintTop_toBottomOf="@id/song_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/btn_unlike"/>
 
         <ImageView
             android:id="@+id/btn_unlike"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:src="@drawable/btn_player_unlike_off"
-            android:contentDescription="즐겨찾기 삭제" />
-    </LinearLayout>
+            android:contentDescription="즐겨찾기 삭제"
+            app:layout_constraintTop_toBottomOf="@id/song_text"
+            app:layout_constraintStart_toStartOf="@id/btn_like"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ImageView
+        android:layout_width="370dp"
+        android:layout_height="5dp"
+        android:src="@drawable/button_background_gray_color"
+        android:id="@+id/greystring"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/btn_like"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/song_start_time"
+        android:text="00:00"
+        android:textColor="@color/flo"
+        android:textSize="16dp"
+        app:layout_constraintTop_toBottomOf="@id/greystring"
+        app:layout_constraintStart_toStartOf="@+id/greystring" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/song_end_time"
+        android:text="01:00"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        app:layout_constraintTop_toBottomOf="@id/greystring"
+        app:layout_constraintEnd_toEndOf="@+id/greystring" />
 
     <!-- 음악 컨트롤 버튼 -->
     <LinearLayout
@@ -146,16 +168,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/favorite_buttons"
+        app:layout_constraintBottom_toTopOf="@id/additional_features"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp">
+        android:layout_marginBottom="70dp">
 
         <ImageView
             android:id="@+id/btn_replay"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:src="@drawable/nugu_btn_repeat_inactive"
+            android:layout_marginRight="50dp"
             android:contentDescription="반복" />
 
         <ImageView
@@ -166,11 +189,19 @@
             android:contentDescription="이전 곡" />
 
         <ImageView
-            android:id="@+id/btn_play_pause"
+            android:id="@+id/btn_play"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/btn_miniplay_mvplay"
             android:contentDescription="재생" />
+
+        <ImageView
+            android:id="@+id/btn_play_pause"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/btn_miniplay_mvpause"
+            android:contentDescription="정지"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/btn_next"
@@ -184,6 +215,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:src="@drawable/nugu_btn_random_inactive"
+            android:layout_marginLeft="50dp"
             android:contentDescription="랜덤" />
     </LinearLayout>
 
@@ -193,30 +225,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/playback_controls"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp">
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
             android:id="@+id/btn_insta"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:src="@drawable/btn_actionbar_instagram"
+            android:layout_marginRight="80dp"
             android:contentDescription="인스타그램" />
 
         <ImageView
             android:id="@+id/btn_play_related"
             android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_height="30dp"
             android:src="@drawable/btn_player_related"
             android:contentDescription="유사곡" />
 
         <ImageView
             android:id="@+id/btn_go_list"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:src="@drawable/btn_miniplayer_go_list"
+            android:layout_marginLeft="80dp"
             android:contentDescription="목록" />
     </LinearLayout>
 

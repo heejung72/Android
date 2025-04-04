@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <item
-        android:id="@+id/navigation_home"
+        android:id="@+id/homeFragment"
         android:icon="@drawable/main_btm_home_selector"
-        android:title="홈" />
-
+        android:title="홈"
+        app:showAsAction="always" />
     <item
-        android:id="@+id/navigation_favorites"
+        android:id="@+id/lookFragment"
         android:icon="@drawable/main_btm_search_selector"
-        android:title="즐겨찾기" />
-
+        android:title="둘러보기"
+        app:showAsAction="always" />
     <item
-        android:id="@+id/navigation_search"
+        android:id="@+id/searchFragment"
         android:icon="@drawable/main_btm_look_selector"
-        android:title="검색" />
-
+        android:title="검색"
+        app:showAsAction="always" />
     <item
-        android:id="@+id/navigation_library"
+        android:id="@+id/lockerFragment"
         android:icon="@drawable/main_btm_my_selector"
-        android:title="보관함" />
+        android:title="보관함"
+        app:showAsAction="always" />
+
 </menu>

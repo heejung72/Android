@@ -2,63 +2,77 @@ package com.example.flo_mainpage
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.flo_mainpage.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
-    private var isPlaying = false // 음악 재생 상태 변수
+    lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        // findviewbyId 은 null exception을 고려 안함
+        // binding 써
 
-        setupMiniPlayer() // 미니 플레이어 설정
+        val song =
+            Song(binding.miniSongTitle.text.toString(), binding.miniArtistName.text.toString())
 
-        val navView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        navView.setOnItemSelectedListener { item: MenuItem ->
+        binding.miniPlayer.setOnClickListener {
+            // startActivity(Intent(this, SongActivity::class.java))
+            // Intent로 전달하기
+            val intent = Intent(this, SongActivity::class.java)
+            intent.putExtra("title", song.title)
+            intent.putExtra("singer", song.singer)
+            startActivity(intent)
+        }
+        initBottomNavigation()
+
+        // data 가 잘 저장되었는지 확인하기 (log 사용)
+        Log.d("Song", song.title + song.singer)
+    }
+
+    private fun initBottomNavigation() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, HomeFragment()).commitAllowingStateLoss()
+
+        binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.navigation_home, R.id.navigation_favorites, R.id.navigation_search, R.id.navigation_library -> return@setOnItemSelectedListener true
+                R.id.homeFragment -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, HomeFragment())
+                        .commitAllowingStateLoss()
+                    return@setOnItemSelectedListener true
+                }
+
+                R.id.lookFragment -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, LookFragment())
+                        .commitAllowingStateLoss()
+                    return@setOnItemSelectedListener true
+                }
+
+                R.id.searchFragment -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, SearchFragment())
+                        .commitAllowingStateLoss()
+                    return@setOnItemSelectedListener true
+                }
+
+                R.id.lockerFragment -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, LockerFragment())
+                        .commitAllowingStateLoss()
+                    return@setOnItemSelectedListener true
+                }
                 else -> return@setOnItemSelectedListener false
             }
         }
-
-        // 노래 제목 및 아티스트 이름 클릭 시 AlbumFragment 열기
-        findViewById<View>(R.id.mini_song_title).setOnClickListener { openAlbumFragment() }
-        findViewById<View>(R.id.mini_artist_name).setOnClickListener { openAlbumFragment() }
-
-        // 앨범 이미지 클릭 시 SongActivity 실행
-        val albumImage = findViewById<ImageView>(R.id.imageView40)
-        albumImage.setOnClickListener {
-            val intent = Intent(this, SongActivity::class.java)
-            startActivity(intent)
-        }
-    }
-
-    private fun setupMiniPlayer() {
-        val playButton = findViewById<ImageView>(R.id.mini_play_button)
-
-        playButton.setOnClickListener {
-            if (isPlaying) {
-                playButton.setImageResource(R.drawable.btn_miniplay_mvplay)
-                // TODO: 음악 일시정지 기능 추가
-                isPlaying = false
-            } else {
-                playButton.setImageResource(R.drawable.btn_miniplay_pause)
-                // TODO: 음악 재생 기능 추가
-                isPlaying = true
-            }
-        }
-    }
-
-    private fun openAlbumFragment() {
-        val albumFragment: Fragment = AlbumFragment()
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container, albumFragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
     }
 }
