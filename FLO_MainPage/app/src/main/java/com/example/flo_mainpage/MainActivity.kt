@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         // binding 써
 
         val song =
-            Song(binding.miniSongTitle.text.toString(), binding.miniArtistName.text.toString())
+            Song(binding.miniSongTitle.text.toString(), binding.miniArtistName.text.toString(), 0, 60, false)
 
         binding.miniPlayer.setOnClickListener {
             // startActivity(Intent(this, SongActivity::class.java))
@@ -30,6 +30,9 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, SongActivity::class.java)
             intent.putExtra("title", song.title)
             intent.putExtra("singer", song.singer)
+            intent.putExtra("second", song.second)
+            intent.putExtra("playTime", song.playTime)
+            intent.putExtra("isPlaying", song.isPlaying)
             startActivity(intent)
         }
         initBottomNavigation()
@@ -37,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         // data 가 잘 저장되었는지 확인하기 (log 사용)
         Log.d("Song", song.title + song.singer)
     }
-    
+
 
     private fun initBottomNavigation() {
         supportFragmentManager.beginTransaction()
