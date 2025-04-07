@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         // data 가 잘 저장되었는지 확인하기 (log 사용)
         Log.d("Song", song.title + song.singer)
     }
+    
 
     private fun initBottomNavigation() {
         supportFragmentManager.beginTransaction()
