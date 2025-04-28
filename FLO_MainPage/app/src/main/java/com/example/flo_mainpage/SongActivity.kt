@@ -34,6 +34,10 @@ class SongActivity : AppCompatActivity() {
         binding.btnPlayPause.setOnClickListener {
             setPlayerStatus(true)
         }
+        binding.btnReplay.setOnClickListener {
+            setPlayerStatus(true)
+            restartTimer()
+        }
 
 //        if (intent.hasExtra("title") && intent.hasExtra("singer")) {
 //            binding.tvSongTitle.text= intent.getStringExtra("title")
@@ -86,6 +90,13 @@ class SongActivity : AppCompatActivity() {
     private fun startTimer() {
         timer = Timer(song.playTime, song.isPlaying)
         timer.start()
+    }
+
+    private fun restartTimer() {
+        if (::timer.isInitialized) {
+            timer.interrupt()
+        }
+        startTimer()
     }
 
     // Thread (timer class)
