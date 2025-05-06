@@ -17,7 +17,7 @@ class LockerFragment : Fragment() {
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-        ): View? {
+        ): View {
             binding = FragmentLockerBinding.inflate(inflater, container, false)
 
             val lockerVPAdapter = LockerVPAdapter(this)

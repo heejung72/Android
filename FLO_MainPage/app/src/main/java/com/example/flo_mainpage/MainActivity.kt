@@ -2,12 +2,12 @@ package com.example.flo_mainpage
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import android.util.Log
 import com.example.flo_mainpage.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -28,6 +28,10 @@ class MainActivity : AppCompatActivity() {
             Song(binding.miniSongTitle.text.toString(), binding.miniArtistName.text.toString(), 0, 60, false)
 
         binding.miniPlayer.setOnClickListener {
+            val editor = getSharedPreferences("song", MODE_PRIVATE).edit()
+
+            editor.apply()
+
             // startActivity(Intent(this, SongActivity::class.java))
             // Intent로 전달하기
             val intent = Intent(this, SongActivity::class.java)
@@ -38,6 +42,7 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("isPlaying", song.isPlaying)
             startActivity(intent)
         }
+
         initBottomNavigation()
 
         // data 가 잘 저장되었는지 확인하기 (log 사용)
