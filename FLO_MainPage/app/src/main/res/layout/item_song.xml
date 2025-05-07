@@ -48,6 +48,26 @@
         app:layout_constraintBottom_toBottomOf="@id/item_song_img_cardView"
         app:layout_constraintStart_toEndOf="@id/item_song_img_cardView"/>
 
+        <ImageView
+        android:id="@+id/item_song_switch_off"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/btn_toggle_off"
+        app:layout_constraintEnd_toStartOf="@+id/item_song_play_iv"
+        app:layout_constraintTop_toTopOf="@id/item_song_play_iv"/>
+
+        <ImageView
+            android:id="@+id/item_song_switch_on"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/btn_toggle_on"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@+id/item_song_play_iv"
+            app:layout_constraintTop_toTopOf="@id/item_song_play_iv"/>
+
+
+
+
     <ImageView
         android:id="@+id/item_song_play_iv"
         android:layout_width="30dp"
