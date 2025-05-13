@@ -23,5 +23,8 @@ interface AlbumDao {
     @Query("SELECT userId FROM LikeTable WHERE userId = :userId AND albumId = :albumId")
     fun isLikedAlbum(userId: Int, albumId: Int): Int?
 
-    // 필요한 다른 메서드들
+    @Query("SELECT * FROM AlbumTable INNER JOIN LikeTable ON AlbumTable.id = LikeTable.albumId WHERE LikeTable.userId = :userId")
+    fun getLikedAlbums(userId: Int): List<Album>
+
+
 }

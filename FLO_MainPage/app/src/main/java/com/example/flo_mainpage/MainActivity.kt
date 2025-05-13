@@ -17,7 +17,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        inputDummySongs()
+        // Initialize the database and add dummy data
+        initializeDB()
+
+        // Set up UI and listeners
         initBottomNavigation()
 
         binding.miniPlayer.setOnClickListener {
@@ -39,6 +42,20 @@ class MainActivity : AppCompatActivity() {
 
         binding.miniNextButton.setOnClickListener {
             moveSong(1)
+        }
+    }
+
+    private fun initializeDB() {
+        val songDB = SongDatabase.getInstance(this)!!
+
+        // Add dummy songs if needed
+        inputDummySongs()
+
+        // Log the number of albums in the database
+        val albums = songDB.albumDao().getAlbums()
+        Log.d("MainActivity", "Albums in database: ${albums.size}")
+        for (album in albums) {
+            Log.d("MainActivity", "Album found: ${album.id} - ${album.title}")
         }
     }
 
@@ -67,14 +84,13 @@ class MainActivity : AppCompatActivity() {
     private fun getPlayingSongPosition(songId: Int): Int {
         for (i in songs.indices) {
             if (songs[i].id == songId) {
-                Log.d("DB", "Found song at position $i with id: ${songs[i].id}")  // 로그 추가
+                Log.d("DB", "Found song at position $i with id: ${songs[i].id}")
                 return i
             }
         }
-        Log.d("DB", "Song not found, returning 0")  // 노래를 못 찾으면 0 반환
+        Log.d("DB", "Song not found, returning 0")
         return 0
     }
-
 
     private fun moveSong(direction: Int) {
         val newPos = nowPos + direction
@@ -91,7 +107,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setMiniPlayer(song: Song) {
-        Log.d("DB", "Setting mini player for song: ${song.title}") // 로그 추가
+        Log.d("DB", "Setting mini player for song: ${song.title}")
         runOnUiThread {
             binding.miniSongTitle.text = song.title
             binding.miniArtistName.text = song.singer
@@ -99,7 +115,6 @@ class MainActivity : AppCompatActivity() {
             setPlayerStatus(song.isPlaying)
         }
     }
-
 
     private fun setPlayerStatus(isPlaying: Boolean) {
         songs[nowPos].isPlaying = isPlaying
@@ -176,7 +191,7 @@ class MainActivity : AppCompatActivity() {
             Song("Next Level", "에스파 (AESPA)", 0, 210, false, "music_next", R.drawable.img_album_exp3, false)
         )
         songDB.songDao().insert(
-            Song("Boy with Luv", "music_boy", 0, 230, false, "music_lilac", R.drawable.img_album_exp4, false)
+            Song("Boy with Luv", "방탄소년단 (BTS)", 0, 230, false, "music_lilac", R.drawable.img_album_exp4, false)
         )
         songDB.songDao().insert(
             Song("BBoom BBoom", "모모랜드 (MOMOLAND)", 0, 240, false, "music_bboom", R.drawable.img_album_exp5, false)
