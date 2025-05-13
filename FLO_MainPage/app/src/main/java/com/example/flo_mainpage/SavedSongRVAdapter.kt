@@ -1,4 +1,5 @@
 package com.example.flo_mainpage
+
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
@@ -6,39 +7,34 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flo_mainpage.databinding.ItemSongBinding
 
-class SavedSongRVAdapter() :
+class SavedSongRVAdapter :
     RecyclerView.Adapter<SavedSongRVAdapter.ViewHolder>() {
+
     private val songs = ArrayList<Song>()
-    interface MyItemClickListener{
+
+    interface MyItemClickListener {
         fun onRemoveSong(songId: Int)
     }
-    private lateinit var mItemClickListener : MyItemClickListener
 
-    fun setMyItemClickListener(itemClickListener: MyItemClickListener){
+    private lateinit var mItemClickListener: MyItemClickListener
+
+    fun setMyItemClickListener(itemClickListener: MyItemClickListener) {
         mItemClickListener = itemClickListener
     }
 
-
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): SavedSongRVAdapter.ViewHolder {
-        val binding: ItemSongBinding = ItemSongBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
-
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
+        val binding = ItemSongBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: SavedSongRVAdapter.ViewHolder, position: Int) {
-        holder.bind(songs[position])
-
-        // 스위치 상태에 따라 이미지 변경
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val song = songs[position]
-        if (song.isSwitchOn) {
-            holder.binding.itemSongSwitchOn.visibility = View.VISIBLE
-            holder.binding.itemSongSwitchOff.visibility = View.GONE
-        } else {
-            holder.binding.itemSongSwitchOn.visibility = View.GONE
-            holder.binding.itemSongSwitchOff.visibility = View.VISIBLE
-        }
+        holder.bind(song)
 
-        // 스위치 클릭 리스너 설정
+        // 좋아요 스위치 UI
+        holder.binding.itemSongSwitchOn.visibility = if (song.isSwitchOn) View.VISIBLE else View.GONE
+        holder.binding.itemSongSwitchOff.visibility = if (song.isSwitchOn) View.GONE else View.VISIBLE
+
         holder.binding.itemSongSwitchOff.setOnClickListener {
             song.isSwitchOn = true
             notifyItemChanged(position)
@@ -49,8 +45,9 @@ class SavedSongRVAdapter() :
             notifyItemChanged(position)
         }
 
-        // 더보기 버튼 클릭 리스너
+        // 더보기 클릭 → 좋아요 취소 처리 요청
         holder.binding.itemSongMoreIv.setOnClickListener {
+            mItemClickListener.onRemoveSong(song.id) // 외부에서 DB 업데이트 가능
             removeSong(position)
         }
     }
@@ -58,22 +55,20 @@ class SavedSongRVAdapter() :
     override fun getItemCount(): Int = songs.size
 
     @SuppressLint("NotifyDataSetChanged")
-    fun addSongs(songs: ArrayList<Song>) {
-        this.songs.clear()
-        this.songs.addAll(songs)
-
+    fun addSongs(newSongs: List<Song>) {
+        songs.clear()
+        songs.addAll(newSongs)
         notifyDataSetChanged()
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private fun removeSong(position: Int){
+    private fun removeSong(position: Int) {
         songs.removeAt(position)
-        notifyDataSetChanged()
+        notifyItemRemoved(position)
     }
 
-    inner class ViewHolder(val binding: ItemSongBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(song: Song){
-            binding.itemSongImgIv.setImageResource(song.coverImg!!)
+    inner class ViewHolder(val binding: ItemSongBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(song: Song) {
+            binding.itemSongImgIv.setImageResource(song.coverImg ?: R.drawable.img_album_exp2)
             binding.itemSongTitleTv.text = song.title
             binding.itemSongSingerTv.text = song.singer
         }

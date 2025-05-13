@@ -10,7 +10,9 @@ import com.example.flo_mainpage.databinding.FragmentLockerSavedsongBinding
 
 class SavedSongFragment : Fragment() {
     private lateinit var binding: FragmentLockerSavedsongBinding
-    private val songList = ArrayList<Song>()
+    private lateinit var songDB: SongDatabase
+    private lateinit var likedSongs: List<Song>
+    private lateinit var savedSongRVAdapter: SavedSongRVAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -18,37 +20,30 @@ class SavedSongFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLockerSavedsongBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
     override fun onStart() {
         super.onStart()
+        initDB()
         initRecyclerView()
     }
 
+    private fun initDB() {
+        songDB = SongDatabase.getInstance(requireContext())!!
+        likedSongs = songDB.songDao().getLikedSongs(isLike = true) // 좋아요한 곡만 조회
+    }
+
     private fun initRecyclerView() {
-        // 더미 데이터 추가
-        songList.apply {
-            add(Song("Butter", "방탄소년단", 0, 60, false, "music_butter", R.drawable.img_album_exp))
-            add(Song("Lilac", "아이유", 0, 70, false, "music_lilac", R.drawable.img_album_exp2))
-            add(Song("Next Level", "에스파", 0, 90, false, "music_next", R.drawable.img_album_exp3))
-            add(Song("Boy with Luv", "방탄소년단", 0, 80, false, "music_boy", R.drawable.img_album_exp4))
-            add(Song("BBoom BBoom", "모모랜드", 0, 75, false, "music_bboom", R.drawable.img_album_exp5))
-            add(Song("Weekend", "태연", 0, 85, false, "music_weekend", R.drawable.img_album_exp6))
-        }
+        savedSongRVAdapter = SavedSongRVAdapter()
+        binding.lockerSavedSongRecyclerView.layoutManager = LinearLayoutManager(context)
+        binding.lockerSavedSongRecyclerView.adapter = savedSongRVAdapter
 
-        val songRVAdapter = SavedSongRVAdapter()
-        binding.lockerSavedSongRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.lockerSavedSongRecyclerView.adapter = songRVAdapter
+        savedSongRVAdapter.addSongs(likedSongs)
 
-        // 데이터 적용
-        songRVAdapter.addSongs(songList)
-
-        // 클릭 리스너 연결
-        songRVAdapter.setMyItemClickListener(object : SavedSongRVAdapter.MyItemClickListener {
+        savedSongRVAdapter.setMyItemClickListener(object : SavedSongRVAdapter.MyItemClickListener {
             override fun onRemoveSong(songId: Int) {
-                // 삭제 기능은 비워둬도 됩니다 (DB 없이 구현 중이므로)
+                // Optional: 좋아요 취소 기능 추가하려면 여기서 처리
             }
         })
     }

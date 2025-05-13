@@ -2,132 +2,122 @@ package com.example.flo_mainpage
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
-import android.view.View
-import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.example.flo_mainpage.databinding.ActivityMainBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
-
-    private lateinit var song: Song
+    private lateinit var songs: ArrayList<Song>
+    private var nowPos = 0
     private lateinit var timer: Timer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        // findviewbyId 은 null exception을 고려 안함
-        // binding 써
 
-        song =
-            Song(binding.miniSongTitle.text.toString(), binding.miniArtistName.text.toString(), 0, 60, false)
+        inputDummySongs()
+        initBottomNavigation()
 
         binding.miniPlayer.setOnClickListener {
             val editor = getSharedPreferences("song", MODE_PRIVATE).edit()
-
+            editor.putInt("songId", songs[nowPos].id)
             editor.apply()
 
-            // startActivity(Intent(this, SongActivity::class.java))
-            // Intent로 전달하기
             val intent = Intent(this, SongActivity::class.java)
-            intent.putExtra("title", song.title)
-            intent.putExtra("singer", song.singer)
-            intent.putExtra("second", song.second)
-            intent.putExtra("playTime", song.playTime)
-            intent.putExtra("isPlaying", song.isPlaying)
             startActivity(intent)
         }
-
-        initBottomNavigation()
-
-        // data 가 잘 저장되었는지 확인하기 (log 사용)
-        Log.d("Song", song.title + song.singer)
 
         binding.miniPlayButton.setOnClickListener {
             setPlayerStatus(true)
         }
+
         binding.miniPreviousButton.setOnClickListener {
-            setPlayerStatus(true)
-            restartTimer()
+            moveSong(-1)
         }
 
-        startTimer()
+        binding.miniNextButton.setOnClickListener {
+            moveSong(1)
+        }
+    }
 
+    override fun onStart() {
+        super.onStart()
+
+        val songDB = SongDatabase.getInstance(this)!!
+        songs = ArrayList(songDB.songDao().getSongs())
+
+        Log.d("DB", "songs.size after load: ${songs.size}")
+
+        val spf = getSharedPreferences("song", MODE_PRIVATE)
+        val songId = spf.getInt("songId", 1)
+
+        nowPos = getPlayingSongPosition(songId)
+
+        setMiniPlayer(songs[nowPos])
+        startTimer()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if (::timer.isInitialized) {
-            timer.interrupt()
+        if (::timer.isInitialized) timer.interrupt()
+    }
+
+    private fun getPlayingSongPosition(songId: Int): Int {
+        for (i in songs.indices) {
+            if (songs[i].id == songId) {
+                Log.d("DB", "Found song at position $i with id: ${songs[i].id}")  // 로그 추가
+                return i
+            }
+        }
+        Log.d("DB", "Song not found, returning 0")  // 노래를 못 찾으면 0 반환
+        return 0
+    }
+
+
+    private fun moveSong(direction: Int) {
+        val newPos = nowPos + direction
+        if (newPos < 0 || newPos >= songs.size) return
+
+        nowPos = newPos
+        timer.interrupt()
+        startTimer()
+        setMiniPlayer(songs[nowPos])
+
+        val editor = getSharedPreferences("song", MODE_PRIVATE).edit()
+        editor.putInt("songId", songs[nowPos].id)
+        editor.apply()
+    }
+
+    private fun setMiniPlayer(song: Song) {
+        Log.d("DB", "Setting mini player for song: ${song.title}") // 로그 추가
+        runOnUiThread {
+            binding.miniSongTitle.text = song.title
+            binding.miniArtistName.text = song.singer
+            binding.songProgressMain.progress = (song.second * 100000) / song.playTime
+            setPlayerStatus(song.isPlaying)
         }
     }
 
+
     private fun setPlayerStatus(isPlaying: Boolean) {
-            song.isPlaying = isPlaying
-
-            if (::timer.isInitialized) {
-                timer.isPlaying = isPlaying
-            }
-
-            if (isPlaying) {
-                binding.miniPlayButton.setImageResource(R.drawable.btn_miniplay_pause) // 필요한 이미지 리소스로 변경
-            } else {
-                binding.miniPlayButton.setImageResource(R.drawable.btn_miniplay_mvplay) // 필요한 이미지 리소스로 변경
-            }
+        songs[nowPos].isPlaying = isPlaying
+        if (::timer.isInitialized) {
+            timer.isPlaying = isPlaying
         }
 
-        private fun startTimer() {
-            timer = Timer(song.playTime, song.isPlaying)
-            timer.start()
+        if (isPlaying) {
+            binding.miniPlayButton.setImageResource(R.drawable.btn_miniplay_pause)
+        } else {
+            binding.miniPlayButton.setImageResource(R.drawable.btn_miniplay_mvplay)
         }
+    }
 
-        private fun restartTimer() {
-            if (::timer.isInitialized) {
-                timer.interrupt()
-            }
-            startTimer()
-        }
-
-        // Thread (timer class)
-        inner class Timer(private val playTime: Int, var isPlaying: Boolean = true) : Thread() {
-            private var second: Int = 0
-            private var mills: Float = 0f
-
-            override fun run() {
-                super.run()
-
-                try {
-                    // timer 계속 진행
-                    while (true) {
-                        if (second >= playTime) {
-                            break
-                        }
-                        if (isPlaying) {
-                            sleep(50)
-                            mills += 50
-                            runOnUiThread {
-                                binding.songProgressMain.progress = ((mills / (playTime * 1000)) * 100000).toInt()
-                            }
-
-                            if (mills % 1000 == 0f) {
-                                second++
-                                // TextView가 없는 경우 주석 처리
-                                // runOnUiThread {
-                                //    binding.songStartTime.text = String.format("%02d:%02d", second / 60, second % 60)
-                                // }
-                            }
-                        }
-                    }
-                } catch (e: InterruptedException) {
-                    Log.d("Song", "Thread is dead ${e.message}")
-                }
-            }
-        }
+    private fun startTimer() {
+        timer = Timer(songs[nowPos].playTime, songs[nowPos].isPlaying)
+        timer.start()
+    }
 
     private fun initBottomNavigation() {
         supportFragmentManager.beginTransaction()
@@ -139,30 +129,82 @@ class MainActivity : AppCompatActivity() {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, HomeFragment())
                         .commitAllowingStateLoss()
-                    return@setOnItemSelectedListener true
+                    true
                 }
 
                 R.id.lookFragment -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, LookFragment())
                         .commitAllowingStateLoss()
-                    return@setOnItemSelectedListener true
+                    true
                 }
 
                 R.id.searchFragment -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, SearchFragment())
                         .commitAllowingStateLoss()
-                    return@setOnItemSelectedListener true
+                    true
                 }
 
                 R.id.lockerFragment -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, LockerFragment())
                         .commitAllowingStateLoss()
-                    return@setOnItemSelectedListener true
+                    true
                 }
-                else -> return@setOnItemSelectedListener false
+
+                else -> false
+            }
+        }
+    }
+
+    private fun inputDummySongs() {
+        val songDB = SongDatabase.getInstance(this)!!
+        val songs = songDB.songDao().getSongs()
+        if (songs.isNotEmpty()) return
+
+        songDB.songDao().insert(
+            Song("Lilac", "아이유 (IU)", 0, 200, false, "music_lilac", R.drawable.img_album_exp2, false)
+        )
+        songDB.songDao().insert(
+            Song("Flu", "아이유 (IU)", 0, 200, false, "music_flu", R.drawable.img_album_exp2, false)
+        )
+        songDB.songDao().insert(
+            Song("Butter", "방탄소년단 (BTS)", 0, 190, false, "music_butter", R.drawable.img_album_exp, false)
+        )
+        songDB.songDao().insert(
+            Song("Next Level", "에스파 (AESPA)", 0, 210, false, "music_next", R.drawable.img_album_exp3, false)
+        )
+        songDB.songDao().insert(
+            Song("Boy with Luv", "music_boy", 0, 230, false, "music_lilac", R.drawable.img_album_exp4, false)
+        )
+        songDB.songDao().insert(
+            Song("BBoom BBoom", "모모랜드 (MOMOLAND)", 0, 240, false, "music_bboom", R.drawable.img_album_exp5, false)
+        )
+
+        Log.d("DB", "Dummy songs inserted.")
+    }
+
+    inner class Timer(private val playTime: Int, var isPlaying: Boolean = true) : Thread() {
+        private var second: Int = 0
+        private var mills: Float = 0f
+
+        override fun run() {
+            try {
+                while (true) {
+                    if (second >= playTime) break
+                    if (isPlaying) {
+                        sleep(50)
+                        mills += 50
+                        runOnUiThread {
+                            binding.songProgressMain.progress =
+                                ((mills / (playTime * 1000)) * 100000).toInt()
+                        }
+                        if (mills % 1000 == 0f) second++
+                    }
+                }
+            } catch (e: InterruptedException) {
+                Log.d("Song", "Thread is dead ${e.message}")
             }
         }
     }

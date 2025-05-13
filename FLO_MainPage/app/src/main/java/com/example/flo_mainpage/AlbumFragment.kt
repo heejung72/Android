@@ -1,24 +1,28 @@
 package com.example.flo_mainpage
 
-import android.content.Intent // 화면 전환
-import android.os.Bundle // 화면 간 데이터 저장 및 복원
-import android.view.LayoutInflater // XML 레이아웃을 View 객체로 변환
-import android.view.View // 뷰 객체
-import android.view.ViewGroup // 뷰 그룹 객체
+
+import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.flo_mainpage.databinding.FragmentAlbumBinding // 뷰 바인딩 클래스
-import com.example.flo_mainpage.databinding.FragmentHomeBinding
-import com.google.android.material.tabs.TabLayoutMediator // 탭 레이아웃과 뷰페이저2를 연결
+import com.example.flo_mainpage.SongDatabase
+import com.example.flo_mainpage.databinding.FragmentAlbumBinding
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
 
-class AlbumFragment : Fragment(){
-    lateinit var binding: FragmentAlbumBinding
-    private var gson: Gson = Gson()
+class AlbumFragment : Fragment() {
+    private lateinit var binding: FragmentAlbumBinding
+
+
 
     private val information = arrayListOf("수록곡", "상세정보", "영상")
 
-    // fragment에서는 onCreateView activity는 onCreate
+    private var isLiked: Boolean = false
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -26,33 +30,93 @@ class AlbumFragment : Fragment(){
     ): View? {
         binding = FragmentAlbumBinding.inflate(inflater, container, false)
 
-        // Home 에서 넘어온 데이터 받아오기
-        val albumJson = arguments?.getString("album")
-        val album = gson.fromJson(albumJson, Album::class.java)
-        // Home에서 넘어온 데이터를 반영
-        setInit(album)
+        val albumData = arguments?.getString("album")
+        val gson = Gson()
 
-        binding.btnBack.setOnClickListener{
-            (context as MainActivity).supportFragmentManager.beginTransaction().replace(R.id.fragment_container,HomeFragment()).commitAllowingStateLoss()
+        val album = gson.fromJson(albumData, Album::class.java)
+        isLiked = isLikedAlbum(album.id)
+
+        setViews(album)
+        initViewPager()
+        setClickListeners(album)
+
+
+        return binding.root
+    }
+
+    private fun setViews(album: Album) {
+        binding.tvSongTitle.text = album.title.toString()
+        binding.tvArtistname.text = album.singer.toString()
+        binding.imageView1.setImageResource(album.coverImg!!)
+
+        if(isLiked) {
+            binding.btnLike.setImageResource(R.drawable.ic_my_like_on)
+        } else {
+            binding.btnLike.setImageResource(R.drawable.ic_my_like_off)
+        }
+    }
+
+    private fun setClickListeners(album: Album) {
+        val userId: Int = getJwt()
+
+        binding.btnLike.setOnClickListener {
+            if(isLiked) {
+                binding.btnLike.setImageResource(R.drawable.ic_my_like_off)
+                disLikeAlbum(userId, album.id)
+            } else {
+                binding.btnLike.setImageResource(R.drawable.ic_my_like_on)
+                likeAlbum(userId, album.id)
+            }
+
+            isLiked = !isLiked
         }
 
-
-        // lilac 팝업이 발생함
-        binding.tvSongTitle.setOnClickListener{
-            Toast.makeText(activity,"LILAC", Toast.LENGTH_SHORT).show()
+        //set click listener
+        binding.btnLike.setOnClickListener {
+            (context as MainActivity).supportFragmentManager.beginTransaction()
+                .replace(R.id.main_frm, HomeFragment())
+                .commitAllowingStateLoss()
         }
+    }
 
-        val albumVPAdapter = AlbumVPAdapter(this)
-        binding.albumContentVp.adapter = albumVPAdapter
-        TabLayoutMediator(binding.albumContentTb, binding.albumContentVp){
-            tab, position ->
+    private fun initViewPager() {
+        //init viewpager
+        val albumAdapter = AlbumVPAdapter(this)
+
+        binding.albumContentVp.adapter = albumAdapter
+        TabLayoutMediator(binding.albumContentTb, binding.albumContentVp) { tab, position ->
+
             tab.text = information[position]
         }.attach()
-
-        return binding.root}
-
-        fun setInit(album: Album) {
-            binding.imageView1.setImageResource(album.coverImg!!)
-            binding.tvSongTitle.text = album.title.toString()
-            binding.tvArtistname.text = album.singer.toString()}
     }
+
+    private fun disLikeAlbum(userId: Int, albumId: Int) {
+        val songDB = SongDatabase.getInstance(requireContext())!!
+        songDB.albumDao().disLikeAlbum(userId, albumId)
+    }
+
+    private fun likeAlbum(userId: Int, albumId: Int) {
+        val songDB = SongDatabase.getInstance(requireContext())!!
+        val like = Like(userId, albumId)
+
+        songDB.albumDao().likeAlbum(like)
+    }
+
+
+    private fun isLikedAlbum(albumId: Int): Boolean {
+        val songDB = SongDatabase.getInstance(requireContext())!!
+        val userId = getJwt()
+
+        val likeId: Int? = songDB.albumDao().isLikedAlbum(userId, albumId)
+
+        return likeId != null
+    }
+
+    private fun getJwt(): Int {
+        val spf = activity?.getSharedPreferences("auth", AppCompatActivity.MODE_PRIVATE)
+        val jwt = spf!!.getInt("jwt", 0)
+        Log.d("MAIN_ACT/GET_JWT", "jwt_token: $jwt")
+
+        return jwt
+    }
+}

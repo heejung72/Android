@@ -1,9 +1,8 @@
-
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    kotlin("kapt")
 }
 
 android {
@@ -29,33 +28,25 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     kotlinOptions {
         jvmTarget = "11"
     }
+
     buildFeatures {
         compose = true
-    }
-
-    viewBinding{
-        enable = true
-    }
-
-    dataBinding {
-        enable = true
-    }
-
-    buildFeatures{
         viewBinding = true
+        dataBinding = true
     }
 }
 
 dependencies {
-
-    implementation ("com.google.android.material:material:1.11.0")
+    implementation("com.google.android.material:material:1.11.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -72,14 +63,16 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    implementation ("androidx.viewpager2:viewpager2:1.0.0")
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
     implementation("me.relex:circleindicator:2.1.6")
-    implementation ("com.google.code.gson:gson:2.10.1")
+    implementation("com.google.code.gson:gson:2.10.1")
+
     // Room components
-    implementation ("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-runtime:2.6.1")
 
-// Kotlin Extensions and Coroutines support for Room (optional)
-    implementation ("androidx.room:room-ktx:2.6.1")
+    // Kotlin Extensions and Coroutines support for Room (optional)
+    implementation("androidx.room:room-ktx:2.6.1")
 
-
+    // Room annotation processor (required for Room to generate the implementation class)
+    kapt("androidx.room:room-compiler:2.6.1") // Kotlin의 경우 KAPT 사용
 }
