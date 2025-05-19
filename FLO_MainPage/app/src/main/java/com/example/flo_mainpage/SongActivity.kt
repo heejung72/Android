@@ -27,7 +27,24 @@ class SongActivity : AppCompatActivity() {
 
         initSong()
         initClickListener()
+
+        binding.btnLike.setOnClickListener {
+            setLike(songs[nowPos].isLike)
+        }
+
     }
+
+    private fun setLike(isLike: Boolean) {
+        songs[nowPos].isLike = !isLike
+        songDB.songDao().updateIsLikeById(!isLike, songs[nowPos].id)
+
+        if (!isLike) {
+            binding.btnLike.setImageResource(R.drawable.ic_my_like_on)
+        } else {
+            binding.btnLike.setImageResource(R.drawable.ic_my_like_off)
+        }
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()

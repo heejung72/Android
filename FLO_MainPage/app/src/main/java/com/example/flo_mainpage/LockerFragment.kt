@@ -1,5 +1,6 @@
 package com.example.flo_mainpage
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -42,6 +43,12 @@ class LockerFragment : Fragment() {
 
             bottomSheet.show(parentFragmentManager, bottomSheet.tag)
         }
+
+        binding.lockerLoginTv.setOnClickListener {
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+            startActivity(intent)
+        }
+
 
         return binding.root
     }
