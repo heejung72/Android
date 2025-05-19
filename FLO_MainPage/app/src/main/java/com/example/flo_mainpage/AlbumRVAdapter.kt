@@ -27,6 +27,7 @@ class AlbumRVAdapter(private val albumList: ArrayList<Album>) : RecyclerView.Ada
         return ViewHolder(binding)
     }
 
+
     fun addItem(album: Album){
         albumList.add(album)
         notifyDataSetChanged()

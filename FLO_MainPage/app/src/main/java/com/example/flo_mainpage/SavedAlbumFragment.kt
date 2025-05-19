@@ -1,7 +1,6 @@
 package com.example.flo_mainpage
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.flo_mainpage.databinding.FragmentLockerSavedalbumBinding
 
 class SavedAlbumFragment : Fragment() {
-    lateinit var binding: FragmentLockerSavedalbumBinding
-    lateinit var albumDB: SongDatabase
+    private lateinit var binding: FragmentLockerSavedalbumBinding
+    private lateinit var albumDB: SongDatabase
     private lateinit var albumRVAdapter: AlbumLockerRVAdapter
 
     override fun onCreateView(
@@ -26,11 +25,11 @@ class SavedAlbumFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        initRecyclerview()
-        loadAlbums()
+        initRecyclerView()
+        loadLikedAlbums()
     }
 
-    private fun initRecyclerview() {
+    private fun initRecyclerView() {
         binding.lockerSavedSongRecyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
@@ -39,29 +38,29 @@ class SavedAlbumFragment : Fragment() {
         albumRVAdapter.setMyItemClickListener(object : AlbumLockerRVAdapter.MyItemClickListener {
             override fun onRemoveSong(songId: Int) {
                 Thread {
-                    // DB에서 삭제
                     albumDB.albumDao().deleteAlbumById(songId)
 
+                    // 삭제 후 메인 스레드에서 UI 갱신
+                    requireActivity().runOnUiThread {
+                        loadLikedAlbums()
+                    }
                 }.start()
             }
         })
 
-
         binding.lockerSavedSongRecyclerView.adapter = albumRVAdapter
     }
 
-    private fun loadAlbums() {
+    private fun loadLikedAlbums() {
         Thread {
-            val allAlbums = albumDB.albumDao().getAlbums() as ArrayList
+            val likedAlbums = albumDB.albumDao().getLikedAlbums(getJwt(requireContext()))
             requireActivity().runOnUiThread {
-                albumRVAdapter.addAlbums(allAlbums)
+                albumRVAdapter.setAlbums(ArrayList(likedAlbums))
             }
         }.start()
     }
 
-    // 바깥에서 호출하는 UI 갱신 함수
     fun refreshAlbums() {
-        loadAlbums()
+        loadLikedAlbums()
     }
-
 }

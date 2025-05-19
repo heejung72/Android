@@ -27,7 +27,8 @@
         <activity
             android:name="com.example.flo_mainpage.SongActivity"
             android:exported="true" />
-
+        <activity android:name="com.example.flo_mainpage.LoginActivity"/>
+        <activity android:name="com.example.flo_mainpage.SignUpActivity"/>
     </application>
 
 </manifest>

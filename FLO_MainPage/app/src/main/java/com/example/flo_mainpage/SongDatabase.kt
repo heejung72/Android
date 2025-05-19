@@ -6,11 +6,12 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Song::class, Album::class, Like::class], version = 2)
+@Database(entities = [Song::class, Album::class, Like::class, User::class ], version = 3)
 abstract class SongDatabase : RoomDatabase() {
 
     abstract fun songDao(): SongDao
     abstract fun albumDao(): AlbumDao
+     abstract fun userDao(): UserDao
 
     companion object {
         private var instance: SongDatabase? = null
