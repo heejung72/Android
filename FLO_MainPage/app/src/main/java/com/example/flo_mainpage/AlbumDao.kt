@@ -26,5 +26,9 @@ interface AlbumDao {
     @Query("SELECT * FROM AlbumTable INNER JOIN LikeTable ON AlbumTable.id = LikeTable.albumId WHERE LikeTable.userId = :userId")
     fun getLikedAlbums(userId: Int): List<Album>
 
+    // 삭제 메서드 추가
+    @Query("DELETE FROM AlbumTable WHERE id = :albumId")
+    fun deleteAlbumById(albumId: Int)
+
 
 }

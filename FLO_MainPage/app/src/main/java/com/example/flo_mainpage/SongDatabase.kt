@@ -6,7 +6,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Song::class, Album::class, Like::class], version = 1)
+@Database(entities = [Song::class, Album::class, Like::class], version = 2)
 abstract class SongDatabase : RoomDatabase() {
 
     abstract fun songDao(): SongDao
@@ -23,7 +23,7 @@ abstract class SongDatabase : RoomDatabase() {
                         context.applicationContext,
                         SongDatabase::class.java,
                         "song-database"
-                    ).allowMainThreadQueries().build()
+                    ).fallbackToDestructiveMigration().allowMainThreadQueries().build()
 
                     // Check if albums exist and initialize if needed
                     instance?.let {

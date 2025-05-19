@@ -9,5 +9,5 @@ data class Profile(
     var age: String?,
     var phone: String?
 ) {
-    @PrimaryKey(autoGenerate = true) var io: Int = 0
+    @PrimaryKey(autoGenerate = true) var id: Int = 0
 }

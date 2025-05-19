@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.flo_mainpage.databinding.FragmentLockerSavedalbumBinding
@@ -13,6 +12,7 @@ import com.example.flo_mainpage.databinding.FragmentLockerSavedalbumBinding
 class SavedAlbumFragment : Fragment() {
     lateinit var binding: FragmentLockerSavedalbumBinding
     lateinit var albumDB: SongDatabase
+    private lateinit var albumRVAdapter: AlbumLockerRVAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,35 +27,41 @@ class SavedAlbumFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         initRecyclerview()
+        loadAlbums()
     }
 
     private fun initRecyclerview() {
         binding.lockerSavedSongRecyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-        val albumRVAdapter = AlbumLockerRVAdapter()
+        albumRVAdapter = AlbumLockerRVAdapter()
 
-        // 어댑터에 클릭 리스너 등록
         albumRVAdapter.setMyItemClickListener(object : AlbumLockerRVAdapter.MyItemClickListener {
             override fun onRemoveSong(songId: Int) {
-                albumDB.albumDao().disLikeAlbum(getJwt(), songId)
-                initRecyclerview() // 삭제 후 목록 갱신
+                Thread {
+                    // DB에서 삭제
+                    albumDB.albumDao().deleteAlbumById(songId)
+
+                }.start()
             }
         })
 
+
         binding.lockerSavedSongRecyclerView.adapter = albumRVAdapter
-
-        // DB에서 좋아요 누른 앨범 가져오기
-        val likedAlbums = albumDB.albumDao().getLikedAlbums(getJwt()) as ArrayList
-        Log.d("SAVED_ALBUM/LIKED", likedAlbums.toString())
-
-        albumRVAdapter.addAlbums(likedAlbums)
     }
 
-    private fun getJwt(): Int {
-        val spf = activity?.getSharedPreferences("auth", AppCompatActivity.MODE_PRIVATE)
-        val jwt = spf?.getInt("jwt", 0) ?: 0
-        Log.d("MAIN_ACT/GET_JWT", "jwt_token: $jwt")
-        return jwt
+    private fun loadAlbums() {
+        Thread {
+            val allAlbums = albumDB.albumDao().getAlbums() as ArrayList
+            requireActivity().runOnUiThread {
+                albumRVAdapter.addAlbums(allAlbums)
+            }
+        }.start()
     }
+
+    // 바깥에서 호출하는 UI 갱신 함수
+    fun refreshAlbums() {
+        loadAlbums()
+    }
+
 }

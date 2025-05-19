@@ -24,4 +24,8 @@ interface SongDao {
 
     @Query("SELECT * FROM SongTable WHERE isLike= :isLike")
     fun getLikedSongs(isLike: Boolean): List<Song>
+
+    @Query("DELETE FROM SongTable")
+    fun deleteAll()
+
 }

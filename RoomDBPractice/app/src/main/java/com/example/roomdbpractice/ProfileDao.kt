@@ -12,4 +12,7 @@ interface ProfileDao {
 
     @Delete
     fun delete(profile: Profile)
+
+    @Query("SELECT * FROM Profile")
+    fun getAll(): List<Profile>
 }

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.flo_mainpage.databinding.ActivityMainBinding
+import com.google.gson.Gson
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -28,8 +29,26 @@ class MainActivity : AppCompatActivity() {
             editor.putInt("songId", songs[nowPos].id)
             editor.apply()
 
-            val intent = Intent(this, SongActivity::class.java)
-            startActivity(intent)
+            // 현재 재생 중인 노래의 앨범 정보 가져오기
+            val songDB = SongDatabase.getInstance(this)!!
+            val allAlbums = songDB.albumDao().getAlbums()
+
+            // 현재 노래의 앨범 찾기 (임시로 첫 번째 앨범 사용)
+            val currentAlbum = allAlbums[0]  // 실제로는 song.albumIdx 등을 사용해 적절한 앨범을 찾아야 함
+
+            // AlbumFragment로 전환
+            val albumFragment = AlbumFragment().apply {
+                arguments = Bundle().apply {
+                    val gson = Gson()
+                    val albumJson = gson.toJson(currentAlbum)
+                    putString("album", albumJson)
+                }
+            }
+
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, albumFragment)
+                .addToBackStack(null)
+                .commitAllowingStateLoss()
         }
 
         binding.miniPlayButton.setOnClickListener {
