@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.flo_mainpage.databinding.FragmentLockerSavedalbumBinding
@@ -12,6 +13,7 @@ class SavedAlbumFragment : Fragment() {
     private lateinit var binding: FragmentLockerSavedalbumBinding
     private lateinit var albumDB: SongDatabase
     private lateinit var albumRVAdapter: AlbumLockerRVAdapter
+    private lateinit var likedAlbums: List<Album>  // Album 데이터 클래스 가정
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,13 +38,16 @@ class SavedAlbumFragment : Fragment() {
         albumRVAdapter = AlbumLockerRVAdapter()
 
         albumRVAdapter.setMyItemClickListener(object : AlbumLockerRVAdapter.MyItemClickListener {
-            override fun onRemoveSong(songId: Int) {
+            override fun onRemoveSong(albumId: Int) {
                 Thread {
-                    albumDB.albumDao().deleteAlbumById(songId)
-
-                    // 삭제 후 메인 스레드에서 UI 갱신
-                    requireActivity().runOnUiThread {
-                        loadLikedAlbums()
+                    val album = albumDB.albumDao().getAlbum(albumId)
+                    if (album != null) {
+                        album.isLike = false
+                        albumDB.albumDao().updateAlbum(album)
+                        requireActivity().runOnUiThread {
+                            Toast.makeText(requireContext(), "${album.title} 앨범이 좋아요 목록에서 삭제되었습니다", Toast.LENGTH_SHORT).show()
+                            loadLikedAlbums()
+                        }
                     }
                 }.start()
             }
@@ -53,7 +58,7 @@ class SavedAlbumFragment : Fragment() {
 
     private fun loadLikedAlbums() {
         Thread {
-            val likedAlbums = albumDB.albumDao().getLikedAlbums(getJwt(requireContext()))
+            likedAlbums = albumDB.albumDao().getLikedAlbums(true)
             requireActivity().runOnUiThread {
                 albumRVAdapter.setAlbums(ArrayList(likedAlbums))
             }

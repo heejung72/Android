@@ -6,7 +6,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Song::class, Album::class, Like::class, User::class ], version = 3)
+@Database(entities = [Song::class, Album::class, Like::class, User::class ], version = 4)
 abstract class SongDatabase : RoomDatabase() {
 
     abstract fun songDao(): SongDao
@@ -48,6 +48,7 @@ abstract class SongDatabase : RoomDatabase() {
                 Album(4, "Boy with Luv", "방탄소년단 (BTS)", R.drawable.img_album_exp4),
                 Album(5, "BBoom BBoom", "모모랜드 (MOMOLAND)", R.drawable.img_album_exp5)
             )
+
 
             for (album in albums) {
                 db.albumDao().insert(album)

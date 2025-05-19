@@ -12,5 +12,6 @@ data class Album(
     var title: String? = "",
     var singer: String? = "",
     var coverImg: Int? = null,
-    var isSelected: Boolean = false
+    var isSelected: Boolean = false,
+    var isLike: Boolean = false
 )
