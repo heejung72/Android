@@ -1,12 +1,11 @@
 package com.example.roomdbpractice
 
 import android.content.Context
-import android.provider.ContactsContract.Profile
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Profile::class], version = 1)
+@Database(entities = [com.example.roomdbpractice.Profile::class], version = 1)
 abstract class ProfileDatabase : RoomDatabase() {
     abstract fun profileDao(): ProfileDao
 
