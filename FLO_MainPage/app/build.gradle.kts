@@ -75,4 +75,8 @@ dependencies {
 
     // Room annotation processor (required for Room to generate the implementation class)
     kapt("androidx.room:room-compiler:2.6.1") // Kotlin의 경우 KAPT 사용
+
+    // Rerofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 }

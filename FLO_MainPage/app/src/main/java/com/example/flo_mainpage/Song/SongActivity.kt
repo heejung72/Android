@@ -1,4 +1,4 @@
-package com.example.flo_mainpage
+package com.example.flo_mainpage.Song
 
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.flo_mainpage.R
 import com.example.flo_mainpage.databinding.ActivitySongBinding
 
 class SongActivity : AppCompatActivity() {

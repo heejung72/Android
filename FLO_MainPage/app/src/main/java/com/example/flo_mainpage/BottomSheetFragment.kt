@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import com.example.flo_mainpage.R
-import com.example.flo_mainpage.SongDatabase
+import com.example.flo_mainpage.Song.SongDatabase
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class BottomSheetFragment : BottomSheetDialogFragment() {

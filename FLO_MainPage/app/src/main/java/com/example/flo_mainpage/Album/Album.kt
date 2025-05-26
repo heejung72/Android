@@ -1,10 +1,7 @@
-package com.example.flo_mainpage
-
+package com.example.flo_mainpage.Album
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.*
-
 
 @Entity(tableName = "AlbumTable")
 data class Album(

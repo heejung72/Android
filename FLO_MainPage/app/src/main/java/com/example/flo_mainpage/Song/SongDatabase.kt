@@ -1,12 +1,18 @@
-package com.example.flo_mainpage
+package com.example.flo_mainpage.Song
 
 import android.content.Context
 import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.flo_mainpage.Album.Album
+import com.example.flo_mainpage.Album.AlbumDao
+import com.example.flo_mainpage.Like
+import com.example.flo_mainpage.R
+import com.example.flo_mainpage.User
+import com.example.flo_mainpage.UserDao
 
-@Database(entities = [Song::class, Album::class, Like::class, User::class ], version = 4)
+@Database(entities = [Song::class, Album::class, Like::class, User::class ], version = 5)
 abstract class SongDatabase : RoomDatabase() {
 
     abstract fun songDao(): SongDao

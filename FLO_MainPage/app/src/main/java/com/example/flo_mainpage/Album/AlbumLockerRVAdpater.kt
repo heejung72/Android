@@ -1,11 +1,9 @@
-package com.example.flo_mainpage
+package com.example.flo_mainpage.Album
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flo_mainpage.databinding.ItemAlbumBinding
-import com.example.flo_mainpage.databinding.ItemLockerAlbumBinding
 
 class AlbumLockerRVAdapter : RecyclerView.Adapter<AlbumLockerRVAdapter.ViewHolder>() {
     private var albumList: ArrayList<Album> = arrayListOf()

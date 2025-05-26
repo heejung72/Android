@@ -1,4 +1,4 @@
-package com.example.flo_mainpage
+package com.example.flo_mainpage.Home
 
 import android.os.Bundle
 import android.os.Handler
@@ -13,9 +13,16 @@ import com.example.flo_mainpage.databinding.FragmentHomeBinding
 import java.util.Timer
 import java.util.TimerTask
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.flo_mainpage.Album.Album
+import com.example.flo_mainpage.Album.AlbumFragment
+import com.example.flo_mainpage.Album.AlbumRVAdapter
+import com.example.flo_mainpage.Banner.BannerFragment
+import com.example.flo_mainpage.Banner.BannerVPAdapter
+import com.example.flo_mainpage.MainActivity
+import com.example.flo_mainpage.R
+import com.example.flo_mainpage.Song.SongDatabase
 import com.google.gson.Gson
 import java.util.ArrayList
-import kotlin.concurrent.timer
 
 class HomeFragment : Fragment() {
     lateinit var binding: FragmentHomeBinding
@@ -35,7 +42,7 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         // Initialize database and fetch albums
-        songDB = SongDatabase.getInstance(requireContext())!!
+        songDB = SongDatabase.Companion.getInstance(requireContext())!!
 
         // Debug log before fetching albums
         Log.d("HomeFragment", "Fetching albums from database")

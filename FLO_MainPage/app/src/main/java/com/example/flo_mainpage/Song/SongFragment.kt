@@ -1,11 +1,11 @@
-package com.example.flo_mainpage
+package com.example.flo_mainpage.Song
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.flo_mainpage.databinding.FragmentDetailBinding
+import com.example.flo_mainpage.R
 import com.example.flo_mainpage.databinding.FragmentSongBinding
 
 class SongFragment : Fragment() {

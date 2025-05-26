@@ -1,14 +1,17 @@
-package com.example.flo_mainpage
-
+package com.example.flo_mainpage.Album
 
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.flo_mainpage.Home.HomeFragment
+import com.example.flo_mainpage.Like
+import com.example.flo_mainpage.MainActivity
+import com.example.flo_mainpage.R
+import com.example.flo_mainpage.Song.SongDatabase
 import com.example.flo_mainpage.databinding.FragmentAlbumBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
@@ -22,7 +25,7 @@ class AlbumFragment : Fragment() {
     private val information = arrayListOf("수록곡", "상세정보", "영상")
 
     private fun isLikedAlbum(albumId: Int): Boolean {
-        val songDB = SongDatabase.getInstance(requireContext())!!
+        val songDB = SongDatabase.Companion.getInstance(requireContext())!!
         val userId = getJwt() // 현재 사용자의 userId 가져오기
 
         // userId와 albumId를 기반으로 like 여부 확인
@@ -107,14 +110,14 @@ class AlbumFragment : Fragment() {
     // 예시: Coroutine을 사용한 비동기 처리
     private fun disLikeAlbum(userId: Int, albumId: Int) {
         CoroutineScope(Dispatchers.IO).launch {
-            val songDB = SongDatabase.getInstance(requireContext())!!
+            val songDB = SongDatabase.Companion.getInstance(requireContext())!!
             songDB.albumDao().disLikeAlbum(userId, albumId)
         }
     }
 
     private fun likeAlbum(userId: Int, albumId: Int) {
         CoroutineScope(Dispatchers.IO).launch {
-            val songDB = SongDatabase.getInstance(requireContext())!!
+            val songDB = SongDatabase.Companion.getInstance(requireContext())!!
             val like = Like(userId, albumId)
             songDB.albumDao().likeAlbum(like)
         }

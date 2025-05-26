@@ -1,9 +1,13 @@
 package com.example.flo_mainpage
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.example.flo_mainpage.Album.AlbumFragment
+import com.example.flo_mainpage.Home.HomeFragment
+import com.example.flo_mainpage.Locker.LockerFragment
+import com.example.flo_mainpage.Song.Song
+import com.example.flo_mainpage.Song.SongDatabase
 import com.example.flo_mainpage.databinding.ActivityMainBinding
 import com.google.gson.Gson
 
@@ -198,22 +202,67 @@ class MainActivity : AppCompatActivity() {
         if (songs.isNotEmpty()) return
 
         songDB.songDao().insert(
-            Song("Lilac", "아이유 (IU)", 0, 200, false, "music_lilac", R.drawable.img_album_exp2, false)
+            Song(
+                "Lilac",
+                "아이유 (IU)",
+                0,
+                200,
+                false,
+                "music_lilac",
+                R.drawable.img_album_exp2,
+                false
+            )
         )
         songDB.songDao().insert(
             Song("Flu", "아이유 (IU)", 0, 200, false, "music_flu", R.drawable.img_album_exp2, false)
         )
         songDB.songDao().insert(
-            Song("Butter", "방탄소년단 (BTS)", 0, 190, false, "music_butter", R.drawable.img_album_exp, false)
+            Song(
+                "Butter",
+                "방탄소년단 (BTS)",
+                0,
+                190,
+                false,
+                "music_butter",
+                R.drawable.img_album_exp,
+                false
+            )
         )
         songDB.songDao().insert(
-            Song("Next Level", "에스파 (AESPA)", 0, 210, false, "music_next", R.drawable.img_album_exp3, false)
+            Song(
+                "Next Level",
+                "에스파 (AESPA)",
+                0,
+                210,
+                false,
+                "music_next",
+                R.drawable.img_album_exp3,
+                false
+            )
         )
         songDB.songDao().insert(
-            Song("Boy with Luv", "방탄소년단 (BTS)", 0, 230, false, "music_lilac", R.drawable.img_album_exp4, false)
+            Song(
+                "Boy with Luv",
+                "방탄소년단 (BTS)",
+                0,
+                230,
+                false,
+                "music_lilac",
+                R.drawable.img_album_exp4,
+                false
+            )
         )
         songDB.songDao().insert(
-            Song("BBoom BBoom", "모모랜드 (MOMOLAND)", 0, 240, false, "music_bboom", R.drawable.img_album_exp5, false)
+            Song(
+                "BBoom BBoom",
+                "모모랜드 (MOMOLAND)",
+                0,
+                240,
+                false,
+                "music_bboom",
+                R.drawable.img_album_exp5,
+                false
+            )
         )
 
         Log.d("DB", "Dummy songs inserted.")

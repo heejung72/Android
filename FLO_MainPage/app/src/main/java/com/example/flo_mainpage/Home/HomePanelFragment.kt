@@ -1,4 +1,4 @@
-package com.example.flo_mainpage
+package com.example.flo_mainpage.Home
 
 import android.os.Bundle
 import android.view.LayoutInflater

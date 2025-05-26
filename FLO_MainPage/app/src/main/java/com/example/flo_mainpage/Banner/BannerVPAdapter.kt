@@ -1,4 +1,4 @@
-package com.example.flo_mainpage
+package com.example.flo_mainpage.Banner
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
