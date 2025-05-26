@@ -1,25 +1,22 @@
 package com.example.flo_mainpage.auth
 
 import com.example.flo_mainpage.auth.health.Health
-import com.example.flo_mainpage.auth.member.Join
-import com.example.flo_mainpage.auth.member.JoinResult
-import com.example.flo_mainpage.auth.member.Login
-import com.example.flo_mainpage.auth.member.LoginResult
-import com.example.flo_mainpage.auth.member.Test
+import com.example.flo_mainpage.auth.member.*
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface OnboardingApi {
     @POST("/login")
-    fun login(@Body request: Login): retrofit2.Call<LoginResult>
+    suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
 
     @POST("/join")
-    fun join(@Body request: Join): retrofit2.Call<JoinResult>
+    suspend fun join(@Body request: Join): Response<JoinResult>
 
     @GET("/test")
-    fun test(): retrofit2.Call<Test>
+    suspend fun test(): Response<Test>
 
     @GET("/health")
-    fun health(): retrofit2.Call<Health>
+    suspend fun health(): Response<Health>
 }

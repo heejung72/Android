@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.flo_mainpage.LoginActivity
+import com.example.flo_mainpage.auth.LoginActivity
 import com.example.flo_mainpage.SavedAlbumFragment
 import com.example.flo_mainpage.databinding.FragmentLockerBinding
 import com.example.umc_flo.BottomSheetFragment

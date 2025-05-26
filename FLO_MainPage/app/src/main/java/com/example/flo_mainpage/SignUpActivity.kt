@@ -1,76 +1,86 @@
 package com.example.flo_mainpage
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.flo_mainpage.auth.member.Join
-import com.example.flo_mainpage.auth.member.JoinResult
+import androidx.lifecycle.lifecycleScope
 import com.example.flo_mainpage.databinding.ActivitySignupBinding
-import com.example.flo_mainpage.network.NetworkModule
-import com.example.flo_mainpage.auth.OnboardingApi
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.flo_mainpage.repository.AuthRepository
+import kotlinx.coroutines.launch
 
-class SignUpActivity : AppCompatActivity() {
-
-    lateinit var binding: ActivitySignupBinding
-    lateinit var onboardingApi: OnboardingApi
+class SignupActivity : AppCompatActivity() {
+    private lateinit var binding: ActivitySignupBinding
+    private val authRepository = AuthRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Retrofit 객체 초기화
-        onboardingApi = NetworkModule.getClient().create(OnboardingApi::class.java)
+        setupClickListeners()
+    }
 
+    private fun setupClickListeners() {
         binding.signUpSignUpBtn.setOnClickListener {
-            signUp()
+            performSignup()
+        }
+
+        binding.signUpHidePasswordIv.setOnClickListener {
+            togglePasswordVisibility(binding.signUpPasswordEt)
+        }
+
+        binding.signUpHidePasswordCheckIv.setOnClickListener {
+            togglePasswordVisibility(binding.signUpPasswordCheckEt)
         }
     }
 
-    private fun signUp() {
-        val emailId = binding.signUpIdEt.text.toString()
-        val emailDomain = binding.signUpDirectInputEt.text.toString()
+    private fun performSignup() {
+        val name = binding.signUpName.text.toString()
+        val email = "${binding.signUpIdEt.text}@${binding.signUpDirectInputEt.text}"
         val password = binding.signUpPasswordEt.text.toString()
         val passwordCheck = binding.signUpPasswordCheckEt.text.toString()
-        val name = binding.signUpName.text.toString()
 
-        if (emailId.isEmpty() || emailDomain.isEmpty()) {
-            Toast.makeText(this, "이메일 형식이 잘못되었습니다.", Toast.LENGTH_SHORT).show()
+        if (name.isEmpty() || email.isEmpty() || password.isEmpty() || passwordCheck.isEmpty()) {
+            Toast.makeText(this, "모든 필드를 입력해주세요", Toast.LENGTH_SHORT).show()
             return
         }
 
         if (password != passwordCheck) {
-            Toast.makeText(this, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
             return
         }
 
-        if (name.isEmpty()) {
-            Toast.makeText(this, "이름을 입력해주세요.", Toast.LENGTH_SHORT).show()
-            return
-        }
+        lifecycleScope.launch {
+            try {
+                val response = authRepository.join(name, email, password)
 
-        val email = "$emailId@$emailDomain"
-        val joinRequest = Join(name = name, email = email, password = password)
-
-        onboardingApi.join(joinRequest).enqueue(object : Callback<JoinResult> {
-            override fun onResponse(call: Call<JoinResult>, response: Response<JoinResult>) {
-                if (response.isSuccessful && response.body()?.isSuccess == true) {
-                    Toast.makeText(this@SignUpActivity, "회원가입이 완료되었습니다.", Toast.LENGTH_SHORT).show()
-                    finish()
+                if (response.isSuccessful) {
+                    val joinResponse = response.body()
+                    if (joinResponse?.isSuccess == true) {
+                        Toast.makeText(this@SignupActivity, "회원가입 성공!", Toast.LENGTH_SHORT).show()
+                        finish()
+                    } else {
+                        Toast.makeText(this@SignupActivity,
+                            joinResponse?.message ?: "회원가입 실패", Toast.LENGTH_SHORT).show()
+                    }
                 } else {
-                    val msg = response.body()?.message ?: "회원가입 실패"
-                    Toast.makeText(this@SignUpActivity, msg, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@SignupActivity,
+                        "서버 오류: ${response.code()}", Toast.LENGTH_SHORT).show()
                 }
+            } catch (e: Exception) {
+                Toast.makeText(this@SignupActivity,
+                    "네트워크 오류: ${e.message}", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
 
-            override fun onFailure(call: Call<JoinResult>, t: Throwable) {
-                Toast.makeText(this@SignUpActivity, "서버 통신 실패: ${t.localizedMessage}", Toast.LENGTH_SHORT).show()
-                Log.e("SignUpActivity", "onFailure: ", t)
-            }
-        })
+    private fun togglePasswordVisibility(editText: android.widget.EditText) {
+        val inputType = editText.inputType
+        if (inputType == 129) { // textPassword
+            editText.inputType = 1 // text
+        } else {
+            editText.inputType = 129 // textPassword
+        }
+        editText.setSelection(editText.text.length)
     }
 }
