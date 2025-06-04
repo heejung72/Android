@@ -1,7 +1,10 @@
 package com.example.flo_mainpage
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.flo_mainpage.Album.AlbumFragment
 import com.example.flo_mainpage.Home.HomeFragment
@@ -9,25 +12,71 @@ import com.example.flo_mainpage.Locker.LockerFragment
 import com.example.flo_mainpage.Song.Song
 import com.example.flo_mainpage.Song.SongDatabase
 import com.example.flo_mainpage.databinding.ActivityMainBinding
+import com.example.flo_mainpage.utils.AuthManager
 import com.google.gson.Gson
+import com.kakao.sdk.common.util.Utility
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     private lateinit var songs: ArrayList<Song>
     private var nowPos = 0
     private lateinit var timer: Timer
+    private lateinit var authManager: AuthManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val keyHash = Utility.getKeyHash(this)
+        Log.d("Hash", keyHash)
+
+        // AuthManager 초기화
+        authManager = AuthManager(this)
+
+        // 로그인 상태 확인
+        checkLoginStatus()
+
         // Initialize the database and add dummy data
         initializeDB()
 
         // Set up UI and listeners
         initBottomNavigation()
+        setupMiniPlayerListeners()
 
+        // 사용자 정보 표시
+        displayUserInfo()
+    }
+
+    private fun checkLoginStatus() {
+        if (!authManager.isLoggedIn()) {
+            // 로그인되지 않은 경우 로그인 화면으로 이동
+            val intent = Intent(this, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
+            return
+        }
+    }
+
+    private fun displayUserInfo() {
+        val userInfo = authManager.getUserInfo()
+        val loginType = authManager.getLoginType()
+
+        when (loginType) {
+            "kakao" -> {
+                val nickname = userInfo["kakao_nickname"]
+                if (nickname?.isNotEmpty() == true) {
+                    Log.d("MainActivity", "카카오 로그인 사용자: $nickname")
+                }
+            }
+            "normal" -> {
+                Log.d("MainActivity", "일반 로그인 사용자")
+            }
+        }
+    }
+
+    private fun setupMiniPlayerListeners() {
         binding.miniPlayer.setOnClickListener {
             val editor = getSharedPreferences("song", MODE_PRIVATE).edit()
             editor.putInt("songId", songs[nowPos].id)
@@ -66,6 +115,71 @@ class MainActivity : AppCompatActivity() {
         binding.miniNextButton.setOnClickListener {
             moveSong(1)
         }
+    }
+
+    // 로그아웃 기능 (LockerFragment 등에서 호출할 수 있도록 public으로 만듦)
+    fun showLogoutDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("로그아웃")
+            .setMessage("정말 로그아웃 하시겠습니까?")
+            .setPositiveButton("로그아웃") { _, _ ->
+                performLogout()
+            }
+            .setNegativeButton("취소", null)
+            .show()
+    }
+
+    private fun performLogout() {
+        authManager.logout { success ->
+            if (success) {
+                Toast.makeText(this, "로그아웃되었습니다", Toast.LENGTH_SHORT).show()
+
+                // 로그인 화면으로 이동
+                val intent = Intent(this, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
+            } else {
+                Toast.makeText(this, "로그아웃 실패", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    // 회원탈퇴 기능
+    fun showUnlinkDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("회원탈퇴")
+            .setMessage("정말 탈퇴하시겠습니까? 이 작업은 되돌릴 수 없습니다.")
+            .setPositiveButton("탈퇴") { _, _ ->
+                performUnlink()
+            }
+            .setNegativeButton("취소", null)
+            .show()
+    }
+
+    private fun performUnlink() {
+        authManager.unlink { success ->
+            if (success) {
+                Toast.makeText(this, "회원탈퇴가 완료되었습니다", Toast.LENGTH_SHORT).show()
+
+                // 로그인 화면으로 이동
+                val intent = Intent(this, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
+            } else {
+                Toast.makeText(this, "회원탈퇴 실패", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    // 사용자 정보 getter (다른 Fragment에서 사용할 수 있도록)
+    fun getUserInfo(): Map<String, String> {
+        return authManager.getUserInfo()
+    }
+
+    fun getLoginType(): String {
+        return authManager.getLoginType()
     }
 
     private fun initializeDB() {
