@@ -57,14 +57,23 @@ class AlbumFragment : Fragment() {
             // album 데이터가 없을 경우에 대한 처리 추가
         }
 
-
         return binding.root
     }
 
     private fun setViews(album: Album) {
         binding.tvSongTitle.text = album.title.toString()
         binding.tvArtistname.text = album.singer.toString()
-        binding.imageView1.setImageResource(album.coverImg!!)
+
+        album.coverImg?.let { drawableId ->
+            try {
+                binding.imageView1.setImageResource(drawableId)
+            } catch (e: Exception) {
+                Log.e("AlbumFragment", "Invalid drawable resource ID: $drawableId", e)
+                binding.imageView1.setImageResource(R.drawable.img_album_exp)
+            }
+        } ?: run {
+            binding.imageView1.setImageResource(R.drawable.img_album_exp)
+        }
 
         if(isLiked) {
             binding.btnLike.setImageResource(R.drawable.ic_my_like_on)

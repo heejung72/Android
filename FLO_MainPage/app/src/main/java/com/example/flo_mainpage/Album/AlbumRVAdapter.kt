@@ -1,8 +1,10 @@
 package com.example.flo_mainpage.Album
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.flo_mainpage.R
 import com.example.flo_mainpage.databinding.ItemAlbumBinding
 import java.util.*
 
@@ -27,12 +29,6 @@ class AlbumRVAdapter(private val albumList: ArrayList<Album>) : RecyclerView.Ada
         return ViewHolder(binding)
     }
 
-
-    fun addItem(album: Album){
-        albumList.add(album)
-        notifyDataSetChanged()
-    }
-
     fun removeItem(position: Int){
         albumList.removeAt(position)
         notifyDataSetChanged()
@@ -51,10 +47,21 @@ class AlbumRVAdapter(private val albumList: ArrayList<Album>) : RecyclerView.Ada
     // 뷰홀더
     inner class ViewHolder(val binding: ItemAlbumBinding): RecyclerView.ViewHolder(binding.root){
 
-        fun bind(album: Album){
+        fun bind(album: Album) {
             binding.itemAlbumTitleTv.text = album.title
             binding.itemAlbumSingerTv.text = album.singer
-            binding.itemAlbumCoverImgIv.setImageResource(album.coverImg!!)
+
+            album.coverImg?.let { drawableId ->
+                try {
+                    binding.itemAlbumCoverImgIv.setImageResource(drawableId)
+                } catch (e: Exception) {
+                    Log.e("AlbumRVAdapter", "Invalid drawable resource ID: $drawableId", e)
+                    binding.itemAlbumCoverImgIv.setImageResource(R.drawable.img_album_exp)
+                }
+            } ?: run {
+                binding.itemAlbumCoverImgIv.setImageResource(R.drawable.img_album_exp)
+            }
         }
+
     }
 }

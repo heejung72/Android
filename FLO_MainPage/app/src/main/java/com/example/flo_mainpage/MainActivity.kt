@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.flo_mainpage.Album.Album
 import com.example.flo_mainpage.Album.AlbumFragment
 import com.example.flo_mainpage.Home.HomeFragment
 import com.example.flo_mainpage.Locker.LockerFragment
@@ -315,67 +316,58 @@ class MainActivity : AppCompatActivity() {
         val songs = songDB.songDao().getSongs()
         if (songs.isNotEmpty()) return
 
-        songDB.songDao().insert(
-            Song(
-                "Lilac",
-                "아이유 (IU)",
-                0,
-                200,
-                false,
-                "music_lilac",
-                R.drawable.img_album_exp2,
-                false
+        songDB.albumDao().insert(
+            Album(
+                id = 1,
+                title = "LILAC",
+                singer = "아이유 (IU)",
+                coverImg = R.drawable.img_album_exp2, // Drawable 리소스 ID
+                isSelected = false,
+                isLike = false
             )
         )
-        songDB.songDao().insert(
-            Song("Flu", "아이유 (IU)", 0, 200, false, "music_flu", R.drawable.img_album_exp2, false)
-        )
-        songDB.songDao().insert(
-            Song(
-                "Butter",
-                "방탄소년단 (BTS)",
-                0,
-                190,
-                false,
-                "music_butter",
-                R.drawable.img_album_exp,
-                false
+
+        songDB.albumDao().insert(
+            Album(
+                id = 2,
+                title = "Butter",
+                singer = "방탄소년단 (BTS)",
+                coverImg = R.drawable.img_album_exp, // Drawable 리소스 ID
+                isSelected = false,
+                isLike = false
             )
         )
-        songDB.songDao().insert(
-            Song(
-                "Next Level",
-                "에스파 (AESPA)",
-                0,
-                210,
-                false,
-                "music_next",
-                R.drawable.img_album_exp3,
-                false
+
+        songDB.albumDao().insert(
+            Album(
+                id = 3,
+                title = "MY WORLD",
+                singer = "에스파 (AESPA)",
+                coverImg = R.drawable.img_album_exp3, // Drawable 리소스 ID
+                isSelected = false,
+                isLike = false
             )
         )
-        songDB.songDao().insert(
-            Song(
-                "Boy with Luv",
-                "방탄소년단 (BTS)",
-                0,
-                230,
-                false,
-                "music_lilac",
-                R.drawable.img_album_exp4,
-                false
+
+        songDB.albumDao().insert(
+            Album(
+                id = 4,
+                title = "MAP OF THE SOUL",
+                singer = "방탄소년단 (BTS)",
+                coverImg = R.drawable.img_album_exp4, // Drawable 리소스 ID
+                isSelected = false,
+                isLike = false
             )
         )
-        songDB.songDao().insert(
-            Song(
-                "BBoom BBoom",
-                "모모랜드 (MOMOLAND)",
-                0,
-                240,
-                false,
-                "music_bboom",
-                R.drawable.img_album_exp5,
-                false
+
+        songDB.albumDao().insert(
+            Album(
+                id = 5,
+                title = "GREAT!",
+                singer = "모모랜드 (MOMOLAND)",
+                coverImg = R.drawable.img_album_exp5, // Drawable 리소스 ID
+                isSelected = false,
+                isLike = false
             )
         )
 
